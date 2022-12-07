@@ -22,4 +22,10 @@ public class Ammo : Item
             _human.GetChild(1).GetComponent<Gun>().GetAmmo(numberOfBullets);
         }
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.black;
+        Gizmos.DrawWireSphere(transform.position, 5);
+    }
 }

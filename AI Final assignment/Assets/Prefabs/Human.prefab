@@ -135,6 +135,9 @@ MonoBehaviour:
   ground:
     serializedVersion: 2
     m_Bits: 256
+  selected: 0
+  noSel: {fileID: 2100000, guid: 7e9a43df45c994fadba72bcc2283ee24, type: 2}
+  sel: {fileID: 2100000, guid: db1dadbefe02c8d499739ea8ddd688c7, type: 2}
 --- !u!195 &1516211555
 NavMeshAgent:
   m_ObjectHideFlags: 0

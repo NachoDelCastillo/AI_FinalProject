@@ -8,7 +8,7 @@ public class Gun : Item
     Transform shootingPoint;
 
     bool shooting, pickedUp;
-    [SerializeField] float shootCD, radius, shootRate, clipSize, currentBullets, minDamage;
+    float shootCD, radius, shootRate, clipSize, currentBullets, minDamage;
     // Start is called before the first frame update
     protected override void Start()
     {

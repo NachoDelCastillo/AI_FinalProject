@@ -1,22 +1,25 @@
 using UnityEngine;
 
-public class Gun : MonoBehaviour
+public class Gun : Item
 {
     [SerializeField] Vector2 radiusMinMax, shootRateMinMax, clipSizeMinMax, minDamageMinMax;
     [SerializeField] LayerMask zombieMask;
     [SerializeField] GameObject bullet;
-    [SerializeField] Transform shootingPoint;
+    Transform shootingPoint;
 
-    bool shooting;
-    float shootCD, radius, shootRate, clipSize, currentBullets, minDamage;
+    bool shooting, pickedUp;
+    [SerializeField] float shootCD, radius, shootRate, clipSize, currentBullets, minDamage;
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
+        base.Start();
+
+        pickedUp = false;
         shooting = false;
 
         radius = Random.Range(radiusMinMax.x, radiusMinMax.y);
         shootRate = Random.Range(shootRateMinMax.x, shootRateMinMax.y);
-        clipSize = Random.Range(clipSizeMinMax.x, clipSizeMinMax.y);
+        clipSize = Random.Range((int)clipSizeMinMax.x, (int)clipSizeMinMax.y);
         minDamage = Random.Range(minDamageMinMax.x, minDamageMinMax.y);
 
         currentBullets = clipSize;
@@ -25,6 +28,8 @@ public class Gun : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!pickedUp) return;
+
         Collider[] nearbyZombies = Physics.OverlapSphere(transform.position, radius, zombieMask);
         if (nearbyZombies.Length <= 0) return;
 
@@ -64,6 +69,18 @@ public class Gun : MonoBehaviour
     {
         currentBullets += bullets;
         if (currentBullets > clipSize) currentBullets = clipSize;
+    }
+
+    protected override void PickUp(Transform _human)
+    {
+        base.PickUp(_human);
+
+        if (_human.childCount > 1) Destroy(_human.GetChild(1).gameObject);
+
+        pickedUp = true;
+        shootingPoint = _human.GetChild(0);
+        transform.parent = _human;
+        transform.localPosition = Vector3.zero;
     }
 
     private void OnDrawGizmos()

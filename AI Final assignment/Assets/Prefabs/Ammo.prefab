@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b86c3bee6f888d448b727245f76a0979, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickUpRadius: 0
+  pickUpRadius: 5
   column: 0
   spawnManager: {fileID: 0}
-  numberOfBulletsMinMax: {x: 0, y: 0}
+  numberOfBulletsMinMax: {x: 3, y: 7}

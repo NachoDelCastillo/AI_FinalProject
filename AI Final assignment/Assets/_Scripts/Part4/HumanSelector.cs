@@ -36,7 +36,8 @@ public class HumanSelector : MonoBehaviour
 
                 for (int i = 0; i < humans.Length; i++)
                 {
-                    humans[i].selected = false;
+                    if (humans[i].selected && humans[i] != nearestHuman) humans[i].agent.isStopped = true;
+                    if (humans[i] != nearestHuman) humans[i].selected = false;
                 }
                 nearestHuman.selected = true;
             }

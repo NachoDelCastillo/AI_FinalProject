@@ -5710,9 +5710,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1220827230}
     - target: {fileID: 1516211554, guid: 168fb20d2af8b418eba31d0fc6e085bd, type: 3}
+      propertyPath: safeZone
+      value: 
+      objectReference: {fileID: 1080720663}
+    - target: {fileID: 1516211554, guid: 168fb20d2af8b418eba31d0fc6e085bd, type: 3}
       propertyPath: startingLine
       value: 
       objectReference: {fileID: 634880142}
+    - target: {fileID: 1516211555, guid: 168fb20d2af8b418eba31d0fc6e085bd, type: 3}
+      propertyPath: m_Speed
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 1862677896246170, guid: 168fb20d2af8b418eba31d0fc6e085bd, type: 3}
       propertyPath: m_Name
       value: Human
@@ -7418,9 +7426,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1220827230}
     - target: {fileID: 1516211554, guid: 168fb20d2af8b418eba31d0fc6e085bd, type: 3}
+      propertyPath: safeZone
+      value: 
+      objectReference: {fileID: 1080720663}
+    - target: {fileID: 1516211554, guid: 168fb20d2af8b418eba31d0fc6e085bd, type: 3}
       propertyPath: startingLine
       value: 
       objectReference: {fileID: 634880142}
+    - target: {fileID: 1516211555, guid: 168fb20d2af8b418eba31d0fc6e085bd, type: 3}
+      propertyPath: m_Speed
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 1862677896246170, guid: 168fb20d2af8b418eba31d0fc6e085bd, type: 3}
       propertyPath: m_Name
       value: Human_01
@@ -7527,7 +7543,7 @@ MonoBehaviour:
   maxItemsPerColumn: 2
   ammo: {fileID: 7246857576700073200, guid: b39d930be1d41ea49859d47fcabb7655, type: 3}
   gun: {fileID: 7246857576700073200, guid: ed05a1ec413855b418a746fd0c2974f6, type: 3}
-  timerMinMax: {x: 2, y: 5}
+  timerMinMax: {x: 0.1, y: 1}
 --- !u!1 &1982433967
 GameObject:
   m_ObjectHideFlags: 0

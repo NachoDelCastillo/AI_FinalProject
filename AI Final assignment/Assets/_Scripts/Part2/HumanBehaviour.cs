@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class HumanBehaviour : MonoBehaviour
 {
-    [SerializeField] Transform startingLine;
+    [SerializeField] Transform startingLine, safeZone;
     [SerializeField] MeshCollider area;
 
     [SerializeField] LayerMask ground;
@@ -15,6 +15,8 @@ public class HumanBehaviour : MonoBehaviour
 
     [SerializeField] Material noSel, sel;
     MeshRenderer meshRenderer;
+
+    [SerializeField] Vector3 target;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,20 +29,31 @@ public class HumanBehaviour : MonoBehaviour
         transform.position = new Vector3(area.bounds.center.x + x, transform.position.y, startingLine.position.z);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void LateUpdate()
     {
-        if (!selected) {meshRenderer.material = noSel; return; }
-
-        meshRenderer.material = sel;
-
-        if (Input.GetMouseButton(0))
+        if (!selected)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if(Physics.Raycast(ray, out RaycastHit hitInfo , Mathf.Infinity, ground))
+            meshRenderer.material = noSel;
+
+            target = safeZone.position;
+        }
+        else
+        {
+            meshRenderer.material = sel;
+
+            if (Input.GetMouseButton(0))
             {
-                agent.SetDestination(hitInfo.point);
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity, ground))
+                {
+                    target = hitInfo.point;
+                }
             }
         }
+
+        agent.SetDestination(target);
+
+        if (Vector3.Distance(transform.position, target) >= 5) agent.isStopped = false;
+
     }
 }

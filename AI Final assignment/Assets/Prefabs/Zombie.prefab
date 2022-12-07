@@ -136,8 +136,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   areaToWander: {fileID: 0}
-  idleSpeed: 8
-  chasingSpeed: 10
+  idleSpeed: 5
+  chasingSpeed: 8
   rotSpeed: 5
   force: 20
   radiusToAvoid: 2

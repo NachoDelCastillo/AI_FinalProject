@@ -87,21 +87,12 @@ public class ZombieBehaviour : MonoBehaviour
 
         //Move
         transform.Translate(transform.forward * chasingSpeed * Time.deltaTime, Space.World);
-
-        ////Rotate to the target point
-        //Quaternion targetRotation = Quaternion.LookRotation((target - transform.position).normalized);
-        //Quaternion nextRotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotSpeed);
-        //transform.rotation = nextRotation;
-
-        ////Go Forward
-        //transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
     }
     private void Attacking()
     {
         if (!fov.canSeeTarget) { states = States.Aimless; return; }
         if (Vector3.Distance(transform.position, fov.target.position) > fov.attackRadius) { states = States.Chasing; return; }
     }
-
 
     private void OnDrawGizmos()
     {

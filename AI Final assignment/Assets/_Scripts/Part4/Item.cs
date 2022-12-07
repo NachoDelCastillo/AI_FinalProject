@@ -8,10 +8,11 @@ public class Item : MonoBehaviour
     [HideInInspector] public int column;
 
     [HideInInspector] public SpawnManager spawnManager;
+    SphereCollider sphereCollider;
     // Start is called before the first frame update
     protected virtual void Start()
     {
-        SphereCollider sphereCollider = gameObject.AddComponent<SphereCollider>();
+        sphereCollider = gameObject.AddComponent<SphereCollider>();
 
         sphereCollider.isTrigger = true;
         sphereCollider.radius = pickUpRadius;
@@ -23,6 +24,7 @@ public class Item : MonoBehaviour
         if (human == null) return;
 
         PickUp(human.transform);
+        sphereCollider.enabled = false;
     }
 
     protected virtual void PickUp(Transform _human)

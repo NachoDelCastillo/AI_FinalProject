@@ -21,6 +21,7 @@ public class Ammo : Item
         {
             _human.GetChild(1).GetComponent<Gun>().GetAmmo(numberOfBullets);
         }
+        Destroy(gameObject);
     }
 
     private void OnDrawGizmos()

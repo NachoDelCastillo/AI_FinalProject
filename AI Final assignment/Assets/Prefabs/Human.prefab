@@ -131,13 +131,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingLine: {fileID: 0}
+  safeZone: {fileID: 0}
   area: {fileID: 0}
   ground:
     serializedVersion: 2
     m_Bits: 256
+  agent: {fileID: 0}
   selected: 0
   noSel: {fileID: 2100000, guid: 7e9a43df45c994fadba72bcc2283ee24, type: 2}
   sel: {fileID: 2100000, guid: db1dadbefe02c8d499739ea8ddd688c7, type: 2}
+  target: {x: 0, y: 0, z: 0}
 --- !u!195 &1516211555
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -148,8 +151,8 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 12
-  m_Acceleration: 10
+  m_Speed: 7
+  m_Acceleration: 20
   avoidancePriority: 50
   m_AngularSpeed: 500
   m_StoppingDistance: 5

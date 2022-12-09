@@ -97,8 +97,7 @@ public class ZombieBehaviour : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        //Gizmos.DrawWireCube(areaToWander.position, new Vector3(areaToWander.GetComponent<MeshCollider>().bounds.size.x, areaToWander.GetComponent<MeshCollider>().bounds.size.y, 1));
-        Gizmos.DrawWireCube(areaToWander.position, areaToWander.GetComponent<MeshCollider>().bounds.size);
+        Gizmos.DrawWireCube(areaToWander.position, new Vector3(areaToWander.GetComponent<MeshCollider>().bounds.size.x, 5, areaToWander.GetComponent<MeshCollider>().bounds.size.z));
         Gizmos.DrawLine(transform.position, target);
     }
 

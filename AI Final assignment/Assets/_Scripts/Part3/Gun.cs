@@ -40,9 +40,13 @@ public class Gun : Item
             else if(Vector3.Distance(transform.position, nearbyZombies[i].transform.position) < Vector3.Distance(transform.position, nearestZombie.position)) nearestZombie = nearbyZombies[i].transform;
         }
 
+        // Change gun angle
+        transform.forward = (nearestZombie.position - transform.position).normalized;
+
         if (!shooting) Shoot(nearestZombie);
         else
         {
+
             shootCD += Time.deltaTime;
             if (shootCD >= shootRate)
             {
@@ -59,6 +63,7 @@ public class Gun : Item
         shooting = true;
         currentBullets--;
 
+        // Instantiate bullet
         GameObject clon = Instantiate(bullet);
         clon.transform.position = shootingPoint.position;
         clon.transform.forward = (target.position - transform.position).normalized;

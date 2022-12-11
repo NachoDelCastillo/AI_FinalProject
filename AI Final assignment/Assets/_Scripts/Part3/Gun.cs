@@ -65,6 +65,7 @@ public class Gun : Item
         clon.GetComponent<Bullet>().startDistance = Vector3.Distance(transform.position, target.position);
         clon.GetComponent<Bullet>().damage = minDamage;
     }
+
     public void GetAmmo(float bullets)
     {
         currentBullets += bullets;
@@ -73,6 +74,10 @@ public class Gun : Item
 
     protected override void PickUp(Transform _human)
     {
+        HumanBehaviour humanScript = _human.GetComponent<HumanBehaviour>();
+        if (humanScript.haveGun) return;
+        else humanScript.haveGun = true;
+
         base.PickUp(_human);
 
         if (_human.childCount > 1) Destroy(_human.GetChild(1).gameObject);

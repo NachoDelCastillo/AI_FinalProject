@@ -18,6 +18,9 @@ public class HumanBehaviour : MonoBehaviour
 
     [SerializeField] Vector3 target;
     // Start is called before the first frame update
+
+    [HideInInspector] public bool haveGun = false;
+
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();

@@ -119,10 +119,10 @@ MonoBehaviour:
   visionAngle: 90
   targetMask:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 136
   obstructionMask:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 512
 --- !u!114 &806085037
 MonoBehaviour:
   m_ObjectHideFlags: 0

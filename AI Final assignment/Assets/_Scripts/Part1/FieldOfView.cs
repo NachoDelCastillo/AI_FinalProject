@@ -43,5 +43,7 @@ public class FieldOfView : MonoBehaviour
             else canSeeTarget = false;
         }
         else if (canSeeTarget) canSeeTarget = false;
+
+        Debug.Log("canSeeTarget = " + canSeeTarget);
     }
 }

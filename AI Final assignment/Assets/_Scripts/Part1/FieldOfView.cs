@@ -27,6 +27,9 @@ public class FieldOfView : MonoBehaviour
         if (rangeChecks.Length != 0)
         {
             Transform _target = rangeChecks[0].transform;
+
+            if (_target.GetComponent<HumanBehaviour>() == null) return;
+
             Vector3 directionToTarget = (_target.position - transform.position).normalized;
 
             if (Vector3.Angle(transform.forward, directionToTarget) < visionAngle / 2)
@@ -43,7 +46,5 @@ public class FieldOfView : MonoBehaviour
             else canSeeTarget = false;
         }
         else if (canSeeTarget) canSeeTarget = false;
-
-        Debug.Log("canSeeTarget = " + canSeeTarget);
     }
 }

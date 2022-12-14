@@ -31,6 +31,7 @@ namespace BBUnity.Actions
         public override void OnStart()
         {
             GameObject[] allObjects = GameObject.FindGameObjectsWithTag(tag);
+            if (allObjects.Length == 0) return;
 
             Transform nearestObj = null;
             float nearestDistance = Mathf.Infinity;

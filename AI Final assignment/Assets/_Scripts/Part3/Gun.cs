@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Gun : Item
@@ -10,8 +11,6 @@ public class Gun : Item
     bool shooting, pickedUp;
     float shootCD, radius, shootRate, clipSize, currentBullets, minDamage;
     // Start is called before the first frame update
-
-    ZombieBehaviour[] allZombies;
 
     protected override void Start()
     {
@@ -27,8 +26,6 @@ public class Gun : Item
         minDamage = Random.Range(minDamageMinMax.x, minDamageMinMax.y);
 
         currentBullets = clipSize;
-
-        allZombies = FindObjectsOfType<ZombieBehaviour>();
 
         FindObjectOfType<ZombieBehaviour>();
     }
@@ -52,9 +49,11 @@ public class Gun : Item
     {
         if (!pickedUp) return;
 
+        List<ZombieBehaviour> allZombies = ZombieBehaviour.allZombies;
+
         Transform nearestZombie = null;
         float nearestDistance = Mathf.Infinity;
-        for (int i = 0; i < allZombies.Length; i++)
+        for (int i = 0; i < allZombies.Count; i++)
         {
             Transform thisZombie = allZombies[i].transform;
             float thisDistance = Vector3.Distance(thisZombie.position, transform.position);
@@ -65,8 +64,6 @@ public class Gun : Item
                 nearestDistance = thisDistance;
             }
         }
-
-        //Debug.Log("nearestZombie = " + nearestZombie);
 
         // Change gun angle
         currentNearestZombie = nearestZombie;

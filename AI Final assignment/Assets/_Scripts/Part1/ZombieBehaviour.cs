@@ -1,16 +1,18 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ZombieBehaviour : MonoBehaviour
 {
-    static List<ZombieBehaviour> allZombies = new List<ZombieBehaviour>();
+    static public List<ZombieBehaviour> allZombies = new List<ZombieBehaviour>();
 
     FieldOfView fov;
-    enum States { Aimless, Chasing, Attacking, FollowLead }
-    States states;
+    public enum States { Aimless, Chasing, Attacking, Flock }
+    public States states;
 
-    bool leadingFlock;
+    bool thisIsLeader;
+    ZombieBehaviour followThisLeader;
 
     [SerializeField] Transform areaToWander;
     Vector3 target;
@@ -21,7 +23,21 @@ public class ZombieBehaviour : MonoBehaviour
 
     [SerializeField] float maxHealth;
     float currentHealth;
-    // Start is called before the first frame update
+
+    // When this zombie spot a human, alert every zombie near them
+    float alarmDistance = 500;
+
+    // State indicator
+    [SerializeField]
+    Image stateIndicator;
+
+    [Serializable]
+    struct ImageStateIndicator
+    { public States state; public Sprite sprite; }
+
+    [SerializeField]
+    ImageStateIndicator[] indicatorSprites;
+
     void Start()
     {
         fov = GetComponent<FieldOfView>();
@@ -36,7 +52,7 @@ public class ZombieBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("Current State = " + states);
+        Debug.Log(gameObject.name + " : Current State = " + states);
 
         switch (states)
         {
@@ -49,46 +65,113 @@ public class ZombieBehaviour : MonoBehaviour
             case States.Attacking:
                 Attacking();
                 break;
-            case States.FollowLead: // 
-                Attacking();
+            case States.Flock:
+                FollowLeader();
                 break;
         }
+
+        // Find and assign the respective sprite according to the current state
+        stateIndicator.sprite = Array.Find(indicatorSprites, stateSprite => stateSprite.state == states).sprite;
     }
 
     private void Aimless()
     {
-
         if (fov.canSeeTarget)
         {
             if (Vector3.Distance(transform.position, fov.target.position) <= fov.attackRadius) states = States.Attacking;
             else states = States.Chasing;
+
+            // This frame, a player was spotted by this zombie
+            // It tries to become a leader
+            thisIsLeader = true;
+
+            // Turn into flock state every zombie that is near
+            for (int i = 0; i < allZombies.Count; i++)
+            {
+                ZombieBehaviour thisZombie = allZombies[i];
+
+                // Not this zombie
+                if (thisZombie == this) continue;
+
+                // If this zombie is near enough
+                if (Vector3.Distance(thisZombie.transform.position, transform.position) < alarmDistance)
+                {
+                    // Turn him into a flock
+                    thisZombie.ConvertToFlock(this);
+                }
+            }
+
             return;
         }
 
         if (Vector3.Distance(transform.position, target) <= 5) target = ChooseRandomPoint();
         else
+            MoveToCurrentTarget();
+    }
+
+    private void FollowLeader()
+    {
+        // If the leader is no longer alive
+        if (followThisLeader == null
+            
+        // Or if the current leader stops being a leader (it stops being a leader if it dont know where the player is)
+            || !followThisLeader.thisIsLeader)
         {
-            Vector3 dir = target - transform.position;
-            dir.Normalize();
+            // Then, stop being a flock
+            followThisLeader = null;
 
-            // See if the agent must avoid anything in front of it
-            AvoidObstacles(ref dir);
+            //float distanceToTarget = Vector3.Distance(transform.position, fov.target.position);
 
-            //rotate towards the target pos
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), rotSpeed * Time.deltaTime);
+            //// If it is near a human, chase it
+            //if (distanceToTarget < fov.visionRadius) { states = States.Chasing; }
 
-            //Move
-            transform.Translate(transform.forward * idleSpeed * Time.deltaTime, Space.World);
+            // If not, wander aimlessly
+            //else { states = States.Aimless; }
+
+            states = States.Aimless;
+
+            return;
         }
+
+        // If this zombie is near the human, start chasing him instead
+        if (fov.canSeeTarget)
+            states = States.Chasing;
+
+
+        target = followThisLeader.transform.position;
+
+        MoveToCurrentTarget();
     }
 
     private void Chasing()
     {
-        if (Vector3.Distance(transform.position, fov.target.position) <= fov.attackRadius) { states = States.Attacking; return; }
-        if (!fov.canSeeTarget) { states = States.Aimless; return; }
+        float distanceToTarget = Vector3.Distance(transform.position, fov.target.position);
+
+        if (distanceToTarget <= fov.attackRadius) { states = States.Attacking; return; }
+
+        if (distanceToTarget >= fov.visionRadius + .5f) 
+        { 
+            // If this zombie dont know where the player is, start wandering again 
+            states = States.Aimless;
+            // And if it was a leader, disolve the flock
+            thisIsLeader = false;
+
+            return; 
+        }
 
         target = fov.target.position;
 
+        MoveToCurrentTarget();
+    }
+
+    private void Attacking()
+    {
+        float distanceToTarget = Vector3.Distance(transform.position, fov.target.position);
+        if (distanceToTarget > fov.attackRadius) { states = States.Chasing; return; }
+    }
+
+    private void MoveToCurrentTarget()
+    {
         Vector3 dir = target - transform.position;
         dir.Normalize();
 
@@ -100,11 +183,6 @@ public class ZombieBehaviour : MonoBehaviour
 
         //Move
         transform.Translate(transform.forward * chasingSpeed * Time.deltaTime, Space.World);
-    }
-    private void Attacking()
-    {
-        if (!fov.canSeeTarget) { states = States.Aimless; return; }
-        if (Vector3.Distance(transform.position, fov.target.position) > fov.attackRadius) { states = States.Chasing; return; }
     }
 
     private void OnDrawGizmos()
@@ -149,6 +227,12 @@ public class ZombieBehaviour : MonoBehaviour
         if (currentHealth <= 0) Destroy(gameObject);
     }
 
+    public void ConvertToFlock(ZombieBehaviour flockLeader)
+    {
+        states = States.Flock;
+
+        followThisLeader = flockLeader;
+    }
     private void OnDestroy()
     {
         allZombies.Remove(this);

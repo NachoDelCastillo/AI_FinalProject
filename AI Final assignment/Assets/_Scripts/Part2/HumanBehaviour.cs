@@ -5,6 +5,8 @@ using UnityEngine.AI;
 
 public class HumanBehaviour : MonoBehaviour
 {
+    static public List<HumanBehaviour> allHumans;
+
     [SerializeField] Transform startingLine, safeZone;
     [SerializeField] MeshCollider area;
 
@@ -30,6 +32,8 @@ public class HumanBehaviour : MonoBehaviour
         float x = Random.Range(0, area.bounds.extents.x - 5);
         if (Random.Range(0, 2) == 0) x *= -1;
         transform.position = new Vector3(area.bounds.center.x + x, transform.position.y, startingLine.position.z);
+
+        allHumans.Add(this);
     }
 
     private void LateUpdate()

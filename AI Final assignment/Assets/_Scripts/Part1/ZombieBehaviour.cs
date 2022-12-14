@@ -7,7 +7,7 @@ public class ZombieBehaviour : MonoBehaviour
 {
     static public List<ZombieBehaviour> allZombies = new List<ZombieBehaviour>();
 
-    FieldOfView fov;
+    public FieldOfView fov;
     public enum States { Aimless, Chasing, Attacking, Flock }
     public States states;
 
@@ -27,16 +27,16 @@ public class ZombieBehaviour : MonoBehaviour
     // When this zombie spot a human, alert every zombie near them
     float alarmDistance = 500;
 
-    // State indicator
+    // VISUAL FEEDBACK
     [SerializeField]
     Image stateIndicator;
-
     [Serializable]
     struct ImageStateIndicator
     { public States state; public Sprite sprite; }
-
     [SerializeField]
     ImageStateIndicator[] indicatorSprites;
+    [SerializeField]
+    GameObject leaderImage;
 
     void Start()
     {
@@ -72,6 +72,8 @@ public class ZombieBehaviour : MonoBehaviour
 
         // Find and assign the respective sprite according to the current state
         stateIndicator.sprite = Array.Find(indicatorSprites, stateSprite => stateSprite.state == states).sprite;
+
+        leaderImage.SetActive(thisIsLeader);
     }
 
     private void Aimless()
@@ -111,32 +113,9 @@ public class ZombieBehaviour : MonoBehaviour
 
     private void FollowLeader()
     {
-        // If the leader is no longer alive
-        if (followThisLeader == null
-            
-        // Or if the current leader stops being a leader (it stops being a leader if it dont know where the player is)
-            || !followThisLeader.thisIsLeader)
-        {
-            // Then, stop being a flock
-            followThisLeader = null;
-
-            //float distanceToTarget = Vector3.Distance(transform.position, fov.target.position);
-
-            //// If it is near a human, chase it
-            //if (distanceToTarget < fov.visionRadius) { states = States.Chasing; }
-
-            // If not, wander aimlessly
-            //else { states = States.Aimless; }
-
-            states = States.Aimless;
-
-            return;
-        }
-
         // If this zombie is near the human, start chasing him instead
         if (fov.canSeeTarget)
             states = States.Chasing;
-
 
         target = followThisLeader.transform.position;
 
@@ -149,14 +128,18 @@ public class ZombieBehaviour : MonoBehaviour
 
         if (distanceToTarget <= fov.attackRadius) { states = States.Attacking; return; }
 
-        if (distanceToTarget >= fov.visionRadius + .5f) 
-        { 
+        if (distanceToTarget >= fov.visionRadius + .5f)
+        {
             // If this zombie dont know where the player is, start wandering again 
             states = States.Aimless;
-            // And if it was a leader, disolve the flock
-            thisIsLeader = false;
+            // And if it was a leader, rearrange the flock
 
-            return; 
+            if (thisIsLeader)
+                RearrangeFlock();
+
+            //thisIsLeader = false;
+
+            return;
         }
 
         target = fov.target.position;
@@ -233,8 +216,66 @@ public class ZombieBehaviour : MonoBehaviour
 
         followThisLeader = flockLeader;
     }
+
+
+    // This method is called by the leader of the flock when killed or when he cannot longer spot the player anymore
+    void RearrangeFlock()
+    {
+        // If this was a leader, pass the leader role to the closest zombie to the human that is chasing him.
+        ZombieBehaviour closestZombieToHuman = null;
+        float closestDistance = Mathf.Infinity;
+
+        for (int i = 0; i < allZombies.Count; i++)
+        {
+            ZombieBehaviour thisZombie = allZombies[i];
+            if (thisZombie == this) continue;
+
+            float thisDistance = Vector3.Distance(thisZombie.transform.position, target);
+
+            if (thisDistance < closestDistance)
+            {
+                closestDistance = thisDistance;
+                closestZombieToHuman = thisZombie;
+            }
+        }
+
+        // If the closest zombie to the human that was being followed is chasing him, make him the leader
+        if (closestZombieToHuman.states == States.Chasing && closestZombieToHuman.target == target)
+        {
+            closestZombieToHuman.thisIsLeader = true;
+
+            // Find all the zombies that are chasing this zombie and make them follow the new leader.
+            for (int i = 0; i < allZombies.Count; i++)
+            {
+                ZombieBehaviour thisZombie = allZombies[i];
+                if (thisZombie == this) continue;
+
+                if (thisZombie.followThisLeader == this)
+                    thisZombie.followThisLeader = closestZombieToHuman;
+            }
+        }
+
+        // If no zombie is still following this human, make all the zombies that were following this zombie walk aimlessly
+        else
+        {
+            // Find all the zombies that are chasing this zombie and make them follow the new leader.
+            for (int i = 0; i < allZombies.Count; i++)
+            {
+                if (allZombies[i].followThisLeader == this)
+                    allZombies[i].states = States.Aimless;
+            }
+        }
+
+        thisIsLeader = false;
+    }
+
     private void OnDestroy()
     {
         allZombies.Remove(this);
+
+        if (allZombies.Count == 0) return;
+
+        if (thisIsLeader)
+            RearrangeFlock();
     }
 }

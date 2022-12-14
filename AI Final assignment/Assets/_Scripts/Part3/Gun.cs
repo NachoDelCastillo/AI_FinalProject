@@ -10,6 +10,7 @@ public class Gun : Item
     bool shooting, pickedUp;
     float shootCD, radius, shootRate, clipSize, currentBullets, minDamage;
     // Start is called before the first frame update
+
     protected override void Start()
     {
         base.Start();
@@ -28,17 +29,38 @@ public class Gun : Item
     // Update is called once per frame
     void Update()
     {
+        //if (!pickedUp) return;
+
+        //Collider[] nearbyZombies = Physics.OverlapSphere(transform.position, radius, zombieMask);
+        //if (nearbyZombies.Length <= 0) return;
+
+        //Transform nearestZombie = null;
+        //for (int i = 0; i < nearbyZombies.Length; i++)
+        //{
+        //    if (i == 0) nearestZombie = nearbyZombies[i].transform;
+        //    else if(Vector3.Distance(transform.position, nearbyZombies[i].transform.position) < Vector3.Distance(transform.position, nearestZombie.position)) nearestZombie = nearbyZombies[i].transform;
+        //}
+
+        //// Change gun angle
+        //transform.forward = (nearestZombie.position - transform.position).normalized;
+
+        //if (!shooting) Shoot(nearestZombie);
+        //else
+        //{
+
+        //    shootCD += Time.deltaTime;
+        //    if (shootCD >= shootRate)
+        //    {
+        //        shooting = false;
+        //        shootCD = 0;
+        //    }
+        //}
+    }
+
+    // This method is called when a zombie is near
+    public void Attack(Transform nearestZombie)
+    {
         if (!pickedUp) return;
-
-        Collider[] nearbyZombies = Physics.OverlapSphere(transform.position, radius, zombieMask);
-        if (nearbyZombies.Length <= 0) return;
-
-        Transform nearestZombie = null;
-        for (int i = 0; i < nearbyZombies.Length; i++)
-        {
-            if (i == 0) nearestZombie = nearbyZombies[i].transform;
-            else if(Vector3.Distance(transform.position, nearbyZombies[i].transform.position) < Vector3.Distance(transform.position, nearestZombie.position)) nearestZombie = nearbyZombies[i].transform;
-        }
 
         // Change gun angle
         transform.forward = (nearestZombie.position - transform.position).normalized;

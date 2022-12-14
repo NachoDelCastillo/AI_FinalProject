@@ -4095,6 +4095,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1220827230}
     - target: {fileID: 1516211554, guid: 168fb20d2af8b418eba31d0fc6e085bd, type: 3}
+      propertyPath: safeZone
+      value: 
+      objectReference: {fileID: 1080720663}
+    - target: {fileID: 1516211554, guid: 168fb20d2af8b418eba31d0fc6e085bd, type: 3}
       propertyPath: startingLine
       value: 
       objectReference: {fileID: 634880142}

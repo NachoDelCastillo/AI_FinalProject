@@ -1,9 +1,12 @@
 ﻿using Pada1.BBCore.Tasks;
 using Pada1.BBCore;
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace BBUnity.Actions
 {
+
     /// <summary>
     /// It is an action to find the closest game object with a given label.
     /// </summary>
@@ -27,16 +30,23 @@ namespace BBUnity.Actions
         /// <remarks>Get all the GamesObject with that tag and check which is the closest one.</remarks>
         public override void OnStart()
         {
-            float dist = float.MaxValue;
-            foreach(GameObject go in GameObject.FindGameObjectsWithTag(tag))
+            GameObject[] allObjects = GameObject.FindGameObjectsWithTag(tag);
+
+            Transform nearestObj = null;
+            float nearestDistance = Mathf.Infinity;
+            for (int i = 0; i < allObjects.Length; i++)
             {
-                float newdist = (go.transform.position + gameObject.transform.position).sqrMagnitude;
-                if(newdist < dist)
+                Transform thisObj = allObjects[i].transform;
+                float thisDistance = Vector3.Distance(thisObj.position, gameObject.transform.position);
+
+                if (thisDistance < nearestDistance)
                 {
-                    dist = newdist;
-                    foundGameObject = go;
+                    nearestObj = thisObj;
+                    nearestDistance = thisDistance;
                 }
             }
+
+            foundGameObject = nearestObj.gameObject;
         }
         /// <summary>Method of Update of ClosestGameObjectWithTag.</summary>
         /// <remarks>Complete the task.</remarks>

@@ -27,6 +27,12 @@ namespace BBUnity.Conditions
         /// <returns>True if the magnitude between the gameobject and de target is lower that the given distance.</returns>
         public override bool Check()
 		{
+            Debug.Log("target = " + target);
+
+            if (target == null) return false;
+            bool t = (gameObject.transform.position - target.transform.position).sqrMagnitude < closeDistance * closeDistance;
+            Debug.Log("target = " + target + " CLOSE ENOUGH ?? = " + t);
+
             return (gameObject.transform.position - target.transform.position).sqrMagnitude < closeDistance * closeDistance;
 		}
     }

@@ -10,17 +10,14 @@ namespace BBUnity.Actions // Programmers Quick Start Guide
       "specified velocity.")]
     public class GunBehaviour : GOAction
     {
-
-        [InParam("NearestZombie", DefaultValue = null)]
+        [InParam("NearestZombie")]
         public GameObject nearestZombie;
 
         public override void OnStart()
         {
-            Debug.Log("ON START GUN BEHAVIOUR" + gameObject);
-
             Gun gunScript = gameObject.GetComponent<Gun>();
 
-            gunScript.Attack(nearestZombie.transform);
+            gunScript.Attack();
 
             base.OnStart();
         } // OnStart

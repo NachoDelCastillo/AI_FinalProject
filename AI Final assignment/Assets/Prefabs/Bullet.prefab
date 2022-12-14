@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2926330490037467158}
   - component: {fileID: 2926330490037467159}
   - component: {fileID: 2926330490037467152}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62,7 +62,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1868073177bee874b98d3436d09a0d2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 30
+  speed: 80
   startDistance: 0
   damage: 0
   damageCurve:
@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: 2926330491914930581}
   - component: {fileID: 2926330491914930583}
   - component: {fileID: 2926330491914930582}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}

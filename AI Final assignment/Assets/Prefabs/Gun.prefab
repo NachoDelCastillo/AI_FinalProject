@@ -134,7 +134,7 @@ MonoBehaviour:
   column: 0
   spawnManager: {fileID: 0}
   radiusMinMax: {x: 5, y: 15}
-  shootRateMinMax: {x: 0.5, y: 2}
+  shootRateMinMax: {x: 0.5, y: 1}
   clipSizeMinMax: {x: 3, y: 10}
   minDamageMinMax: {x: 1, y: 5}
   zombieMask:

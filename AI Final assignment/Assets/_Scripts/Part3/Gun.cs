@@ -11,9 +11,12 @@ public class Gun : Item
     float shootCD, radius, shootRate, clipSize, currentBullets, minDamage;
     // Start is called before the first frame update
 
+    ZombieBehaviour[] allZombies;
+
     protected override void Start()
     {
         base.Start();
+        
 
         pickedUp = false;
         shooting = false;
@@ -24,52 +27,53 @@ public class Gun : Item
         minDamage = Random.Range(minDamageMinMax.x, minDamageMinMax.y);
 
         currentBullets = clipSize;
+
+        allZombies = FindObjectsOfType<ZombieBehaviour>();
+
+        FindObjectOfType<ZombieBehaviour>();
     }
+
+    Transform currentNearestZombie;
 
     // Update is called once per frame
     void Update()
     {
-        //if (!pickedUp) return;
+        // Change gun angle
+        if (currentNearestZombie != null)
+            transform.forward = (currentNearestZombie.position - transform.position).normalized;
 
-        //Collider[] nearbyZombies = Physics.OverlapSphere(transform.position, radius, zombieMask);
-        //if (nearbyZombies.Length <= 0) return;
-
-        //Transform nearestZombie = null;
-        //for (int i = 0; i < nearbyZombies.Length; i++)
-        //{
-        //    if (i == 0) nearestZombie = nearbyZombies[i].transform;
-        //    else if(Vector3.Distance(transform.position, nearbyZombies[i].transform.position) < Vector3.Distance(transform.position, nearestZombie.position)) nearestZombie = nearbyZombies[i].transform;
-        //}
-
-        //// Change gun angle
-        //transform.forward = (nearestZombie.position - transform.position).normalized;
-
-        //if (!shooting) Shoot(nearestZombie);
-        //else
-        //{
-
-        //    shootCD += Time.deltaTime;
-        //    if (shootCD >= shootRate)
-        //    {
-        //        shooting = false;
-        //        shootCD = 0;
-        //    }
-        //}
+        // Update shooting variable
+        if (shooting)
+            shootCD += Time.deltaTime;
     }
 
     // This method is called when a zombie is near
-    public void Attack(Transform nearestZombie)
+    public void Attack()
     {
         if (!pickedUp) return;
 
+        Transform nearestZombie = null;
+        float nearestDistance = Mathf.Infinity;
+        for (int i = 0; i < allZombies.Length; i++)
+        {
+            Transform thisZombie = allZombies[i].transform;
+            float thisDistance = Vector3.Distance(thisZombie.position, transform.position);
+
+            if (thisDistance < nearestDistance)
+            {
+                nearestZombie = thisZombie;
+                nearestDistance = thisDistance;
+            }
+        }
+
+        //Debug.Log("nearestZombie = " + nearestZombie);
+
         // Change gun angle
-        transform.forward = (nearestZombie.position - transform.position).normalized;
+        currentNearestZombie = nearestZombie;
 
         if (!shooting) Shoot(nearestZombie);
         else
         {
-
-            shootCD += Time.deltaTime;
             if (shootCD >= shootRate)
             {
                 shooting = false;
@@ -81,6 +85,8 @@ public class Gun : Item
     private void Shoot(Transform target)
     {
         if (currentBullets <= 0) return;
+
+        Debug.Log("SHOOT, currentBullets = " + currentBullets);
 
         shooting = true;
         currentBullets--;

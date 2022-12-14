@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 23313458975176682}
   - component: {fileID: 1516211554}
   - component: {fileID: 1516211555}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: Human
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -141,6 +141,7 @@ MonoBehaviour:
   noSel: {fileID: 2100000, guid: 7e9a43df45c994fadba72bcc2283ee24, type: 2}
   sel: {fileID: 2100000, guid: db1dadbefe02c8d499739ea8ddd688c7, type: 2}
   target: {x: 0, y: 0, z: 0}
+  haveGun: 0
 --- !u!195 &1516211555
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -172,7 +173,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5097171844433742523}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: ShootingPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}

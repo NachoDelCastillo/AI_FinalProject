@@ -1,11 +1,16 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ZombieBehaviour : MonoBehaviour
 {
+    static List<ZombieBehaviour> allZombies = new List<ZombieBehaviour>();
+
     FieldOfView fov;
-    enum States { Aimless, Chasing, Attacking }
+    enum States { Aimless, Chasing, Attacking, FollowLead }
     States states;
+
+    bool leadingFlock;
 
     [SerializeField] Transform areaToWander;
     Vector3 target;
@@ -24,11 +29,15 @@ public class ZombieBehaviour : MonoBehaviour
         target = ChooseRandomPoint();
 
         currentHealth = maxHealth;
+
+        allZombies.Add(this);
     }
 
     // Update is called once per frame
     void Update()
     {
+        Debug.Log("Current State = " + states);
+
         switch (states)
         {
             case States.Aimless:
@@ -40,11 +49,15 @@ public class ZombieBehaviour : MonoBehaviour
             case States.Attacking:
                 Attacking();
                 break;
+            case States.FollowLead: // 
+                Attacking();
+                break;
         }
     }
 
     private void Aimless()
     {
+
         if (fov.canSeeTarget)
         {
             if (Vector3.Distance(transform.position, fov.target.position) <= fov.attackRadius) states = States.Attacking;
@@ -134,5 +147,10 @@ public class ZombieBehaviour : MonoBehaviour
     {
         currentHealth -= damage;
         if (currentHealth <= 0) Destroy(gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        allZombies.Remove(this);
     }
 }

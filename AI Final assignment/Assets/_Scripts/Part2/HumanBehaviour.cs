@@ -63,4 +63,9 @@ public class HumanBehaviour : MonoBehaviour
         if (Vector3.Distance(transform.position, target) >= 5) agent.isStopped = false;
 
     }
+
+    private void OnDestroy()
+    {
+        allHumans.Remove(this);
+    }
 }

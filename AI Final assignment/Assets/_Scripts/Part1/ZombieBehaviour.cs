@@ -87,6 +87,21 @@ public class ZombieBehaviour : MonoBehaviour
             // It tries to become a leader
             thisIsLeader = true;
 
+            // It becomes a leader if the human this zombie is following dosent have any other zombie leaders following him
+            for (int i = 0; i < allZombies.Count; i++)
+            {
+                ZombieBehaviour thisZombie = allZombies[i];
+                if (thisZombie == this) continue;
+
+                // If both zombies have the same target
+                if (thisZombie.target == fov.target.position)
+                {
+                    // And if this other zombie is a leader
+                    if (thisZombie.thisIsLeader)
+                        thisIsLeader = false;
+                }
+            }
+
             // Turn into flock state every zombie that is near
             for (int i = 0; i < allZombies.Count; i++)
             {

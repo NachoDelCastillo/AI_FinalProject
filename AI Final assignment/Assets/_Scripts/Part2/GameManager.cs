@@ -6,6 +6,15 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    static GameManager instance;
+    static public GameManager GetInstance()
+    { return instance; }
+
+    private void Awake()
+    {
+        instance = this;
+    }
+
     bool gameFinished = false;
 
     [SerializeField]
@@ -14,36 +23,31 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     TMP_Text resultText;
 
-    private void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
-            HumansWin();
-        else if (Input.GetMouseButtonDown(1))
-            ZombiesWin();
-    }
-
     public void HumansWin()
     {
         if (gameFinished) return;
 
-        darkBackground.gameObject.SetActive(true);
+        PrepareResults();
 
         resultText.text = "HUMANS WIN";
-        resultText.gameObject.SetActive(true);
-
-        gameFinished = true;
-
-        Time.timeScale = .2f;
     }
 
     public void ZombiesWin()
     {
         if (gameFinished) return;
 
-        darkBackground.gameObject.SetActive(true);
+        PrepareResults();
 
         resultText.text = "ZOMBIES WIN";
         resultText.color = Color.red;
+    }
+
+    void PrepareResults()
+    {
+        if (gameFinished) return;
+
+        darkBackground.gameObject.SetActive(true);
+
         resultText.gameObject.SetActive(true);
 
         gameFinished = true;

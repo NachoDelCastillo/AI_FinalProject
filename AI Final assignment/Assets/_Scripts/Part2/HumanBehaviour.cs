@@ -36,6 +36,12 @@ public class HumanBehaviour : MonoBehaviour
         allHumans.Add(this);
     }
 
+    private void Update()
+    {
+        if (Vector3.Distance(transform.position, safeZone.position) < 2)
+            GameManager.GetInstance().HumansWin();
+    }
+
     private void LateUpdate()
     {
         if (!selected)
@@ -61,11 +67,13 @@ public class HumanBehaviour : MonoBehaviour
         agent.SetDestination(target);
 
         if (Vector3.Distance(transform.position, target) >= 5) agent.isStopped = false;
-
     }
 
     private void OnDestroy()
     {
         allHumans.Remove(this);
+
+        if (allHumans.Count == 0)
+            GameManager.GetInstance().ZombiesWin();
     }
 }

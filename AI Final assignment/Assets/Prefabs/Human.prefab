@@ -70,7 +70,7 @@ Rigidbody:
   m_GameObject: {fileID: 1862677896246170}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 0
+  m_Drag: 13.49
   m_AngularDrag: 0
   m_UseGravity: 0
   m_IsKinematic: 0
@@ -156,8 +156,8 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 7
-  m_Acceleration: 20
+  m_Speed: 5
+  m_Acceleration: 50
   avoidancePriority: 50
   m_AngularSpeed: 500
   m_StoppingDistance: 5

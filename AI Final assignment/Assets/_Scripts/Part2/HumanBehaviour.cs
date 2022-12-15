@@ -34,6 +34,11 @@ public class HumanBehaviour : MonoBehaviour
     [SerializeField]
     GameObject waypointVisualFeedback;
 
+    // This variables
+    [HideInInspector]
+    public ZombieBehaviour zombieLeaderChasingThis;
+
+
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();

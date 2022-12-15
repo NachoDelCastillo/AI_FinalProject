@@ -139,8 +139,8 @@ MonoBehaviour:
   fov: {fileID: 0}
   states: 0
   areaToWander: {fileID: 0}
-  idleSpeed: 5
-  chasingSpeed: 8
+  idleSpeed: 4
+  chasingSpeed: 6
   rotSpeed: 5
   force: 20
   radiusToAvoid: 2
@@ -149,6 +149,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   maxHealth: 10
+  battleCryDistance: 50
   stateIndicator: {fileID: 6683522266823432676}
   indicatorSprites:
   - state: 0

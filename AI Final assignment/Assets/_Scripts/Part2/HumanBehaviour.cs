@@ -54,8 +54,8 @@ public class HumanBehaviour : MonoBehaviour
 
     private void Update()  
     {
-        //if (Vector3.Distance(transform.position, safeZone.position) < 2)
-        //    GameManager.GetInstance().HumansWin();
+        if (Vector3.Distance(transform.position, safeZone.position) < 6)
+            GameManager.GetInstance().HumansWin();
     }
 
     private void LateUpdate()

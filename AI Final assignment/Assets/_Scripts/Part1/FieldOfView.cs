@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class FieldOfView : MonoBehaviour
 {
-    public Transform target;
+    [HideInInspector] public Transform target;
     public bool canSeeTarget;
 
     public float visionRadius, attackRadius;

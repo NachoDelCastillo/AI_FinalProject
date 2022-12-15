@@ -4208,17 +4208,9 @@ PrefabInstance:
       propertyPath: startingLine
       value: 
       objectReference: {fileID: 634880142}
-    - target: {fileID: 1516211555, guid: 168fb20d2af8b418eba31d0fc6e085bd, type: 3}
-      propertyPath: m_Speed
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 1862677896246170, guid: 168fb20d2af8b418eba31d0fc6e085bd, type: 3}
       propertyPath: m_Name
       value: Human_01 (3)
-      objectReference: {fileID: 0}
-    - target: {fileID: 1862677896246170, guid: 168fb20d2af8b418eba31d0fc6e085bd, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4142488244006586, guid: 168fb20d2af8b418eba31d0fc6e085bd, type: 3}
       propertyPath: m_RootOrder
@@ -8793,17 +8785,9 @@ PrefabInstance:
       propertyPath: startingLine
       value: 
       objectReference: {fileID: 634880142}
-    - target: {fileID: 1516211555, guid: 168fb20d2af8b418eba31d0fc6e085bd, type: 3}
-      propertyPath: m_Speed
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 1862677896246170, guid: 168fb20d2af8b418eba31d0fc6e085bd, type: 3}
       propertyPath: m_Name
       value: Human_01 (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 1862677896246170, guid: 168fb20d2af8b418eba31d0fc6e085bd, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4142488244006586, guid: 168fb20d2af8b418eba31d0fc6e085bd, type: 3}
       propertyPath: m_RootOrder
@@ -8906,10 +8890,6 @@ PrefabInstance:
       propertyPath: startingLine
       value: 
       objectReference: {fileID: 634880142}
-    - target: {fileID: 1516211555, guid: 168fb20d2af8b418eba31d0fc6e085bd, type: 3}
-      propertyPath: m_Speed
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 1862677896246170, guid: 168fb20d2af8b418eba31d0fc6e085bd, type: 3}
       propertyPath: m_Name
       value: Human_01
@@ -9621,17 +9601,9 @@ PrefabInstance:
       propertyPath: startingLine
       value: 
       objectReference: {fileID: 634880142}
-    - target: {fileID: 1516211555, guid: 168fb20d2af8b418eba31d0fc6e085bd, type: 3}
-      propertyPath: m_Speed
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 1862677896246170, guid: 168fb20d2af8b418eba31d0fc6e085bd, type: 3}
       propertyPath: m_Name
       value: Human_01 (2)
-      objectReference: {fileID: 0}
-    - target: {fileID: 1862677896246170, guid: 168fb20d2af8b418eba31d0fc6e085bd, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4142488244006586, guid: 168fb20d2af8b418eba31d0fc6e085bd, type: 3}
       propertyPath: m_RootOrder

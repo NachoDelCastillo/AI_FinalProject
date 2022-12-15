@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 23059261610050916}
   - component: {fileID: 5447843638844686900}
   - component: {fileID: 806085037}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: Zombie
   m_TagString: Zombie
   m_Icon: {fileID: 0}
@@ -120,10 +120,10 @@ MonoBehaviour:
   visionAngle: 90
   targetMask:
     serializedVersion: 2
-    m_Bits: 136
+    m_Bits: 8
   obstructionMask:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 640
 --- !u!114 &806085037
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,17 +139,18 @@ MonoBehaviour:
   fov: {fileID: 0}
   states: 0
   areaToWander: {fileID: 0}
-  idleSpeed: 4
-  chasingSpeed: 6
+  idleSpeed: 2
+  chasingSpeed: 4
   rotSpeed: 5
   force: 20
   radiusToAvoid: 2
   minDistanceToAvoid: 5
   obstacleLayer:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 640
   maxHealth: 10
   battleCryDistance: 50
+  noFlock: 0
   stateIndicator: {fileID: 6683522266823432676}
   indicatorSprites:
   - state: 0
@@ -174,7 +175,7 @@ GameObject:
   - component: {fileID: 3964288207869308031}
   - component: {fileID: 3264308020321153693}
   - component: {fileID: 6683522266823432676}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: StateImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -249,7 +250,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4839686984923936004}
   - component: {fileID: 2702211909055076248}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: StateIndicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -296,7 +297,7 @@ GameObject:
   - component: {fileID: 5877026706911174413}
   - component: {fileID: 1615242761358741647}
   - component: {fileID: 7120181548897212615}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: LocalCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -397,7 +398,7 @@ GameObject:
   - component: {fileID: 1663506127831975491}
   - component: {fileID: 4657350904787108073}
   - component: {fileID: 6535672248412943363}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: IsLeader
   m_TagString: Untagged
   m_Icon: {fileID: 0}

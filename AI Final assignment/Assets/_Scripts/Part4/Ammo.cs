@@ -24,6 +24,14 @@ public class Ammo : Item
         Destroy(gameObject);
     }
 
+    protected override void OnTriggerEnter(Collider other)
+    {
+        HumanBehaviour human = other.GetComponent<HumanBehaviour>();
+        if (human == null) return;
+
+        PickUp(human.transform);
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.black;

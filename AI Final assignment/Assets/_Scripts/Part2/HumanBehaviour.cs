@@ -65,6 +65,10 @@ public class HumanBehaviour : MonoBehaviour
             GameManager.GetInstance().HumansWin();
     }
 
+
+    [SerializeField]
+    LayerMask scenarioLayers;
+
     private void LateUpdate()
     {
         if (!selected)
@@ -76,14 +80,19 @@ public class HumanBehaviour : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity, ground))
+                if (Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity, scenarioLayers))
                 {
+                    Debug.Log("hitInfo = " + hitInfo.collider);
 
-                    Vector3 newPosition = new Vector3(hitInfo.point.x, startingLine.position.y, hitInfo.point.z);
+                    Vector3 newPosition = new Vector3(hitInfo.point.x, .1f, hitInfo.point.z);
+
+                    //if (Physics.CheckSphere(newPosition, .1f, 9)) return;
+                    if (hitInfo.collider.gameObject.layer == 9) return;
+
                     waypoints.Add(newPosition);
                     waypointsVisualFeedback.Add(Instantiate(waypointVisualFeedback, newPosition, Quaternion.identity));
-
-                    Debug.Log("NavMesh.SamplePosition(); = " + NavMesh.SamplePosition(newPosition, out NavMeshHit hit, 1000, 0));
+                    
+                    //Debug.Log("NavMesh.SamplePosition(); = " + NavMesh.SamplePosition(newPosition, out NavMeshHit hit, 1000, 0));
                 }
             }
         }

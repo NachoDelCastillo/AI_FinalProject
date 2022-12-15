@@ -18,7 +18,7 @@ public class Item : MonoBehaviour
         sphereCollider.radius = pickUpRadius;
     }
 
-    protected void OnTriggerEnter(Collider other)
+    protected virtual void OnTriggerEnter(Collider other)
     {
         HumanBehaviour human = other.GetComponent<HumanBehaviour>();
         if (human == null) return;

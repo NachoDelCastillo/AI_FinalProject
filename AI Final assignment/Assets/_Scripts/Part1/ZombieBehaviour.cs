@@ -86,9 +86,8 @@ public class ZombieBehaviour : MonoBehaviour
 
     private void Aimless()
     {
-        if (target == null) target = ChooseRandomPoint();
 
-        if (fov.canSeeTarget && fov.target != null)
+        if (fov.target != null && fov.canSeeTarget)
         {
             if (Vector3.Distance(transform.position, fov.target.position) <= fov.attackRadius) states = States.Attacking;
             else states = States.Chasing;
@@ -140,6 +139,8 @@ public class ZombieBehaviour : MonoBehaviour
 
             return;
         }
+
+        if (target == null) target = ChooseRandomPoint();
 
         if (Vector3.Distance(transform.position, target) <= 5) target = ChooseRandomPoint();
         else
@@ -218,6 +219,7 @@ public class ZombieBehaviour : MonoBehaviour
     {
         Vector3 dir = target - transform.position;
         dir.Normalize();
+        dir = new Vector3(dir.x, 0, dir.z); // Erase Y dir
 
         // See if the agent must avoid anything in front of it
         AvoidObstacles(ref dir);

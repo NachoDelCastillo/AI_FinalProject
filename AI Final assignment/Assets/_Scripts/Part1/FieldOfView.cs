@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class FieldOfView : MonoBehaviour
 {
-    [HideInInspector] public Transform target;
-    [HideInInspector] public bool canSeeTarget;
+    public Transform target;
+    public bool canSeeTarget;
 
     public float visionRadius, attackRadius;
 
@@ -28,7 +28,13 @@ public class FieldOfView : MonoBehaviour
         {
             Transform _target = rangeChecks[0].transform;
 
-            if (_target.GetComponent<HumanBehaviour>() == null) return;
+            // If it is not a human
+            if (_target.GetComponent<HumanBehaviour>() == null)
+            {
+                target = null;
+                canSeeTarget = false;
+                return;
+            }
 
             Vector3 directionToTarget = (_target.position - transform.position).normalized;
 

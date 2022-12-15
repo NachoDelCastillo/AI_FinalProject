@@ -148,7 +148,7 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 512
-  maxHealth: 20
+  maxHealth: 10
   stateIndicator: {fileID: 6683522266823432676}
   indicatorSprites:
   - state: 0
@@ -160,6 +160,8 @@ MonoBehaviour:
   - state: 3
     sprite: {fileID: 21300000, guid: 683cef4de3694df458d87e67314a4b9a, type: 3}
   leaderImage: {fileID: 8383567401496792456}
+  ammoSpawnProbability: 0.5
+  ammoPrefab: {fileID: 7246857576700073200, guid: b39d930be1d41ea49859d47fcabb7655, type: 3}
 --- !u!1 &497446429025058443
 GameObject:
   m_ObjectHideFlags: 0

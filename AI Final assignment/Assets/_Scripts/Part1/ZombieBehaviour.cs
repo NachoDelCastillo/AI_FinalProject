@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,6 +8,7 @@ public class ZombieBehaviour : MonoBehaviour
 {
     static public List<ZombieBehaviour> allZombies = new List<ZombieBehaviour>();
 
+    [HideInInspector]
     public FieldOfView fov;
     public enum States { Aimless, Chasing, Attacking, Flock }
     public States states;
@@ -14,13 +16,11 @@ public class ZombieBehaviour : MonoBehaviour
     bool thisIsLeader;
     ZombieBehaviour followThisLeader;
 
+    [Header("MAIN VARIABLES")]
     [SerializeField] Transform areaToWander;
     Vector3 target;
-
     [SerializeField] float idleSpeed, chasingSpeed, rotSpeed, force, radiusToAvoid, minDistanceToAvoid;
-
     [SerializeField] LayerMask obstacleLayer;
-
     [SerializeField] float maxHealth;
     float currentHealth;
 
@@ -28,6 +28,7 @@ public class ZombieBehaviour : MonoBehaviour
     float alarmDistance = 500;
 
     // VISUAL FEEDBACK
+    [Header("VISUAL FEEDBACK")]
     [SerializeField]
     Image stateIndicator;
     [Serializable]
@@ -37,6 +38,12 @@ public class ZombieBehaviour : MonoBehaviour
     ImageStateIndicator[] indicatorSprites;
     [SerializeField]
     GameObject leaderImage;
+
+    [Header("AMMO SPAWN ON DEATH")]
+    [SerializeField]
+    float ammoSpawnProbability;
+    [SerializeField]
+    GameObject ammoPrefab;
 
     void Start()
     {
@@ -119,7 +126,7 @@ public class ZombieBehaviour : MonoBehaviour
                 if (thisZombie == this) continue;
 
                 // If this zombie is near enough
-                if (Vector3.Distance(thisZombie.transform.position, transform.position) < alarmDistance && 
+                if (Vector3.Distance(thisZombie.transform.position, transform.position) < alarmDistance &&
                     thisZombie.states == States.Aimless)
                 {
                     // Turn him into a flock
@@ -330,5 +337,9 @@ public class ZombieBehaviour : MonoBehaviour
 
         if (thisIsLeader)
             RearrangeFlock();
+
+        // Spawn ammo
+        if (UnityEngine.Random.Range(0, 1f) < ammoSpawnProbability)
+            Instantiate(ammoPrefab, transform.position, Quaternion.identity);
     }
 }

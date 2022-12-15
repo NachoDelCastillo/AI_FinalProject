@@ -38,6 +38,9 @@ public class HumanBehaviour : MonoBehaviour
     [HideInInspector]
     public ZombieBehaviour zombieLeaderChasingThis;
 
+    [SerializeField]
+    bool startBeingSelected;
+
 
     void Start()
     {
@@ -50,6 +53,8 @@ public class HumanBehaviour : MonoBehaviour
         transform.position = new Vector3(area.bounds.center.x + x, transform.position.y, startingLine.position.z);
 
         allHumans.Add(this);
+
+        selected = startBeingSelected;
     }
 
     private void Update()  

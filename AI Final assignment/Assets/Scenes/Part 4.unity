@@ -5638,7 +5638,7 @@ GameObject:
   - component: {fileID: 1220827231}
   - component: {fileID: 1220827230}
   - component: {fileID: 1220827229}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8996,7 +8996,7 @@ MonoBehaviour:
   maxItemsPerColumn: 2
   ammo: {fileID: 7246857576700073200, guid: b39d930be1d41ea49859d47fcabb7655, type: 3}
   gun: {fileID: 7246857576700073200, guid: ed05a1ec413855b418a746fd0c2974f6, type: 3}
-  timerMinMax: {x: 2, y: 8}
+  timerMinMax: {x: 2, y: 2}
 --- !u!1 &1982433967
 GameObject:
   m_ObjectHideFlags: 0

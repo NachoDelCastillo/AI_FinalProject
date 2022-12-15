@@ -78,8 +78,12 @@ public class HumanBehaviour : MonoBehaviour
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 if (Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity, ground))
                 {
-                    waypoints.Add(hitInfo.point);
-                    waypointsVisualFeedback.Add(Instantiate(waypointVisualFeedback, hitInfo.point, Quaternion.identity));
+
+                    Vector3 newPosition = new Vector3(hitInfo.point.x, startingLine.position.y, hitInfo.point.z);
+                    waypoints.Add(newPosition);
+                    waypointsVisualFeedback.Add(Instantiate(waypointVisualFeedback, newPosition, Quaternion.identity));
+
+                    Debug.Log("NavMesh.SamplePosition(); = " + NavMesh.SamplePosition(newPosition, out NavMeshHit hit, 1000, 0));
                 }
             }
         }

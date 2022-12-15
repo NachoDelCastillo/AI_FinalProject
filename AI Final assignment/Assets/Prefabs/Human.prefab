@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 23313458975176682}
   - component: {fileID: 1516211554}
   - component: {fileID: 1516211555}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: Human
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -136,7 +136,7 @@ MonoBehaviour:
   area: {fileID: 0}
   ground:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 1
   agent: {fileID: 0}
   selected: 0
   noSel: {fileID: 2100000, guid: 7e9a43df45c994fadba72bcc2283ee24, type: 2}
@@ -158,7 +158,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 5
+  m_Speed: 7
   m_Acceleration: 50
   avoidancePriority: 50
   m_AngularSpeed: 500
@@ -180,7 +180,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6791435098474411165}
   - component: {fileID: 3804915851078821969}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: AmmoIndicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -224,7 +224,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5097171844433742523}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: ShootingPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -258,7 +258,7 @@ GameObject:
   - component: {fileID: 3580230858381283671}
   - component: {fileID: 7024705792818051166}
   - component: {fileID: 8478562587201712075}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: LocalCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -358,7 +358,7 @@ GameObject:
   - component: {fileID: 8294217591131503744}
   - component: {fileID: 3270236904943995433}
   - component: {fileID: 6838384900855849462}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: AmmoText
   m_TagString: Untagged
   m_Icon: {fileID: 0}

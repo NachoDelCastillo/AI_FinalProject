@@ -28,6 +28,9 @@ public class ZombieBehaviour : MonoBehaviour
     [SerializeField]
     float battleCryDistance;
 
+    [SerializeField]
+    bool noFlock;
+
     // VISUAL FEEDBACK
     [Header("VISUAL FEEDBACK")]
     [SerializeField]
@@ -91,6 +94,10 @@ public class ZombieBehaviour : MonoBehaviour
         {
             if (Vector3.Distance(transform.position, fov.target.position) <= fov.attackRadius) states = States.Attacking;
             else states = States.Chasing;
+
+            // If this zombie dosent flock, dont create leaders
+            if (noFlock) return;
+
 
             // This frame, a player was spotted by this zombie
             // It tries to become a leader

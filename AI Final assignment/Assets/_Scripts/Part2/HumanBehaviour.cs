@@ -26,7 +26,7 @@ public class HumanBehaviour : MonoBehaviour
     List<Vector3> waypoints = new List<Vector3>();
     List<GameObject> waypointsVisualFeedback = new List<GameObject>();
 
-    [HideInInspector] public bool haveGun = false;
+    public bool haveGun;
 
     [SerializeField]
     public TMP_Text ammoText;
@@ -50,14 +50,16 @@ public class HumanBehaviour : MonoBehaviour
 
         float x = Random.Range(0, area.bounds.extents.x - 5);
         if (Random.Range(0, 2) == 0) x *= -1;
-        transform.position = new Vector3(area.bounds.center.x + x, transform.position.y, startingLine.position.z);
+
+        if (startingLine != null)
+            transform.position = new Vector3(area.bounds.center.x + x, transform.position.y, startingLine.position.z);
 
         allHumans.Add(this);
 
         selected = startBeingSelected;
     }
 
-    private void Update()  
+    private void Update()
     {
         if (Vector3.Distance(transform.position, safeZone.position) < 6)
             GameManager.GetInstance().HumansWin();

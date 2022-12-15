@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Gun : Item
 {
@@ -12,10 +13,12 @@ public class Gun : Item
     float shootCD, radius, shootRate, clipSize, currentBullets, minDamage;
     // Start is called before the first frame update
 
+    TMP_Text ammoText;
+
     protected override void Start()
     {
         base.Start();
-        
+
 
         pickedUp = false;
         shooting = false;
@@ -83,10 +86,9 @@ public class Gun : Item
     {
         if (currentBullets <= 0) return;
 
-        Debug.Log("SHOOT, currentBullets = " + currentBullets);
-
         shooting = true;
         currentBullets--;
+        UpdateAmmoText();
 
         // Instantiate bullet
         GameObject clon = Instantiate(bullet);
@@ -96,10 +98,17 @@ public class Gun : Item
         clon.GetComponent<Bullet>().damage = minDamage;
     }
 
-    public void GetAmmo(float bullets)
+    // Returns false when the ammo is full and can not have more bullets, in this case, dont pick up the ammo
+    public bool GetAmmo(float bullets)
     {
+        if (currentBullets == clipSize) return false;
+
         currentBullets += bullets;
         if (currentBullets > clipSize) currentBullets = clipSize;
+
+        UpdateAmmoText();
+
+        return true;
     }
 
     protected override void PickUp(Transform _human)
@@ -110,12 +119,25 @@ public class Gun : Item
 
         base.PickUp(_human);
 
-        if (_human.childCount > 1) Destroy(_human.GetChild(1).gameObject);
+        //if (_human.childCount > 1) Destroy(_human.GetChild(2).gameObject);
 
         pickedUp = true;
         shootingPoint = _human.GetChild(0);
         transform.parent = _human;
         transform.localPosition = Vector3.zero;
+
+
+        // Activate the ammo text
+        ammoText = humanScript.ammoText;
+        UpdateAmmoText();
+    }
+
+    void UpdateAmmoText()
+    {
+        ammoText.text = currentBullets + "/" + clipSize;
+
+        if (currentBullets == 0) ammoText.color = Color.red;
+        else ammoText.color = Color.black;
     }
 
     private void OnDrawGizmos()

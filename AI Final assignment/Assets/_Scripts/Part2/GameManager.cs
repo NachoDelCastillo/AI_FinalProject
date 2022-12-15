@@ -50,17 +50,12 @@ public class GameManager : MonoBehaviour
 
         if (darkBackground != null)
             darkBackground.gameObject.SetActive(true);
-        else MissingImageDEBUG();
 
         if (resultText != null)
             resultText.gameObject.SetActive(true);
-        else MissingImageDEBUG();
 
         gameFinished = true;
 
         Time.timeScale = .2f;
     }
-
-    void MissingImageDEBUG()
-    {  Debug.LogError("Missing Image"); }
 }

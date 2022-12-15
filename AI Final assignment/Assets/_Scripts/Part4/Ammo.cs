@@ -15,12 +15,13 @@ public class Ammo : Item
     }
     protected override void PickUp(Transform _human)
     {
-        base.PickUp(_human);
+        // If it dosent have a gun, dont pick it up
+        if (!_human.GetComponent<HumanBehaviour>().haveGun) return;
 
-        if (_human.childCount > 1)
-        {
-            _human.GetChild(1).GetComponent<Gun>().GetAmmo(numberOfBullets);
-        }
+        // If the gun ammo is full, dont pick up this ammo
+        if (!_human.GetComponentInChildren<Gun>().GetAmmo(numberOfBullets)) return;
+
+        base.PickUp(_human);
         Destroy(gameObject);
     }
 

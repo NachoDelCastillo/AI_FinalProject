@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using TMPro;
 
 public class HumanBehaviour : MonoBehaviour
 {
@@ -22,6 +23,9 @@ public class HumanBehaviour : MonoBehaviour
     // Start is called before the first frame update
 
     [HideInInspector] public bool haveGun = false;
+
+    //[SerializeField]
+    public TMP_Text ammoText;
 
     void Start()
     {

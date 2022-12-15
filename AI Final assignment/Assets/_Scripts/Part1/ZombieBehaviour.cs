@@ -87,6 +87,9 @@ public class ZombieBehaviour : MonoBehaviour
 
             // This frame, a player was spotted by this zombie
             // It tries to become a leader
+
+            // Check if there is at least
+            if (allZombies.Count <= 1) return;
             thisIsLeader = true;
 
             // It becomes a leader if the human this zombie is following dosent have any other zombie leaders following him
@@ -104,6 +107,9 @@ public class ZombieBehaviour : MonoBehaviour
                 }
             }
 
+            // If this zombie didnte became a leader, stop this process
+            if (!thisIsLeader) return;
+
             // Turn into flock state every zombie that is near
             for (int i = 0; i < allZombies.Count; i++)
             {
@@ -113,7 +119,8 @@ public class ZombieBehaviour : MonoBehaviour
                 if (thisZombie == this) continue;
 
                 // If this zombie is near enough
-                if (Vector3.Distance(thisZombie.transform.position, transform.position) < alarmDistance)
+                if (Vector3.Distance(thisZombie.transform.position, transform.position) < alarmDistance && 
+                    thisZombie.states == States.Aimless)
                 {
                     // Turn him into a flock
                     thisZombie.ConvertToFlock(this);
@@ -264,6 +271,8 @@ public class ZombieBehaviour : MonoBehaviour
     // This method is called by the leader of the flock when killed or when he cannot longer spot the player anymore
     void RearrangeFlock()
     {
+        thisIsLeader = false;
+
         // If this was a leader, pass the leader role to the closest zombie to the human that is chasing him.
         ZombieBehaviour closestZombieToHuman = null;
         float closestDistance = Mathf.Infinity;
@@ -281,6 +290,9 @@ public class ZombieBehaviour : MonoBehaviour
                 closestZombieToHuman = thisZombie;
             }
         }
+
+        // There is no flock, leader of nothing
+        if (closestZombieToHuman == null) return;
 
         // If the closest zombie to the human that was being followed is chasing him, make him the leader
         if (closestZombieToHuman.states == States.Chasing && closestZombieToHuman.target == target)
@@ -308,8 +320,6 @@ public class ZombieBehaviour : MonoBehaviour
                     allZombies[i].states = States.Aimless;
             }
         }
-
-        thisIsLeader = false;
     }
 
     private void OnDestroy()

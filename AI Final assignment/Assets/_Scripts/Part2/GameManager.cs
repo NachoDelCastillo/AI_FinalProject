@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+
+        Time.timeScale = 1;
     }
 
     bool gameFinished = false;
@@ -46,12 +48,19 @@ public class GameManager : MonoBehaviour
     {
         if (gameFinished) return;
 
-        darkBackground.gameObject.SetActive(true);
+        if (darkBackground != null)
+            darkBackground.gameObject.SetActive(true);
+        else MissingImageDEBUG();
 
-        resultText.gameObject.SetActive(true);
+        if (resultText != null)
+            resultText.gameObject.SetActive(true);
+        else MissingImageDEBUG();
 
         gameFinished = true;
 
         Time.timeScale = .2f;
     }
+
+    void MissingImageDEBUG()
+    {  Debug.LogError("Missing Image"); }
 }

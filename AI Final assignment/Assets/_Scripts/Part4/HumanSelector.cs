@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class HumanSelector : MonoBehaviour
 {
-    [SerializeField] HumanBehaviour[] humans;
-
     // Update is called once per frame
     void Update()
     {
@@ -14,6 +12,14 @@ public class HumanSelector : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity))
             {
+                // Get the current list of humans and convert it into an array
+                List<HumanBehaviour> allHumans = HumanBehaviour.allHumans;
+                HumanBehaviour[] humans = new HumanBehaviour[allHumans.Count];
+                int j = 0;
+                foreach (HumanBehaviour human in allHumans)
+                    humans[j++] = human;
+
+                // Get humans near the click
                 List<HumanBehaviour> nearHumans = new();
                 for (int i = 0; i < humans.Length; i++)
                 {

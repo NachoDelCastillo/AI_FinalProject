@@ -52,7 +52,7 @@ public class ZombieBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(gameObject.name + " : Current State = " + states);
+        //Debug.Log(gameObject.name + " : Current State = " + states);
 
         switch (states)
         {
@@ -78,7 +78,9 @@ public class ZombieBehaviour : MonoBehaviour
 
     private void Aimless()
     {
-        if (fov.canSeeTarget)
+        if (target == null) target = ChooseRandomPoint();
+
+        if (fov.canSeeTarget && fov.target != null)
         {
             if (Vector3.Distance(transform.position, fov.target.position) <= fov.attackRadius) states = States.Attacking;
             else states = States.Chasing;
@@ -130,7 +132,12 @@ public class ZombieBehaviour : MonoBehaviour
     {
         // If this zombie is near the human, start chasing him instead
         if (fov.canSeeTarget)
+        {
             states = States.Chasing;
+            followThisLeader = null; // Delete this reference
+
+            return;
+        }
 
         target = followThisLeader.transform.position;
 
@@ -139,33 +146,54 @@ public class ZombieBehaviour : MonoBehaviour
 
     private void Chasing()
     {
-        float distanceToTarget = Vector3.Distance(transform.position, fov.target.position);
+        float distanceToTarget = -1;
+        if (fov.target != null)
+            distanceToTarget = Vector3.Distance(transform.position, fov.target.position);
 
-        if (distanceToTarget <= fov.attackRadius) { states = States.Attacking; return; }
-
-        if (distanceToTarget >= fov.visionRadius + .5f)
+        if (fov.target == null || distanceToTarget >= fov.visionRadius + 3)
         {
-            // If this zombie dont know where the player is, start wandering again 
+            // If this zombie dont know where the player is or zome zombie killed the player, start wandering again 
             states = States.Aimless;
             // And if it was a leader, rearrange the flock
 
             if (thisIsLeader)
                 RearrangeFlock();
 
-            //thisIsLeader = false;
-
             return;
         }
+        else if (distanceToTarget <= fov.attackRadius) { states = States.Attacking; return; }
 
         target = fov.target.position;
 
         MoveToCurrentTarget();
     }
 
+    float attackRecoil = .5f;
+    float attackRecoilMax = .5f;
     private void Attacking()
     {
-        float distanceToTarget = Vector3.Distance(transform.position, fov.target.position);
-        if (distanceToTarget > fov.attackRadius) { states = States.Chasing; return; }
+        float distanceToTarget = -1;
+        if (fov.target != null)
+            distanceToTarget = Vector3.Distance(transform.position, fov.target.position);
+
+        // If the human got away or the human died because of another zombie
+        if (fov.target == null || distanceToTarget > fov.attackRadius) { states = States.Chasing; return; }
+
+        attackRecoil -= Time.deltaTime;
+        if (attackRecoil <= 0)
+        {
+            attackRecoil = attackRecoilMax;
+
+            // Destroy the human
+            Destroy(fov.target.gameObject);
+
+            // Wander around searching for other humans
+            states = States.Aimless;
+
+            // If it is a leader, inform the rest of zombies that the human is dead
+            if (thisIsLeader)
+                RearrangeFlock();
+        }
     }
 
     private void MoveToCurrentTarget()

@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class HumanBehaviour : MonoBehaviour
 {
-    static public List<HumanBehaviour> allHumans;
+    static public List<HumanBehaviour> allHumans = new List<HumanBehaviour>();
 
     [SerializeField] Transform startingLine, safeZone;
     [SerializeField] MeshCollider area;
@@ -38,8 +38,8 @@ public class HumanBehaviour : MonoBehaviour
 
     private void Update()
     {
-        if (Vector3.Distance(transform.position, safeZone.position) < 2)
-            GameManager.GetInstance().HumansWin();
+        //if (Vector3.Distance(transform.position, safeZone.position) < 2)
+        //    GameManager.GetInstance().HumansWin();
     }
 
     private void LateUpdate()

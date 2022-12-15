@@ -22,10 +22,17 @@ public class HumanBehaviour : MonoBehaviour
     [SerializeField] Vector3 target;
     // Start is called before the first frame update
 
+    [SerializeField]
+    List<Vector3> waypoints = new List<Vector3>();
+    List<GameObject> waypointsVisualFeedback = new List<GameObject>();
+
     [HideInInspector] public bool haveGun = false;
 
-    //[SerializeField]
+    [SerializeField]
     public TMP_Text ammoText;
+
+    [SerializeField]
+    GameObject waypointVisualFeedback;
 
     void Start()
     {
@@ -40,9 +47,8 @@ public class HumanBehaviour : MonoBehaviour
         allHumans.Add(this);
     }
 
-    private void Update()
+    private void Update()  
     {
-
         //if (Vector3.Distance(transform.position, safeZone.position) < 2)
         //    GameManager.GetInstance().HumansWin();
     }
@@ -50,28 +56,39 @@ public class HumanBehaviour : MonoBehaviour
     private void LateUpdate()
     {
         if (!selected)
-        {
             meshRenderer.material = noSel;
-
-            target = safeZone.position;
-        }
         else
         {
             meshRenderer.material = sel;
 
-            if (Input.GetMouseButton(0))
+            if (Input.GetMouseButtonDown(0))
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 if (Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity, ground))
                 {
-                    target = hitInfo.point;
+                    waypoints.Add(hitInfo.point);
+                    waypointsVisualFeedback.Add(Instantiate(waypointVisualFeedback, hitInfo.point, Quaternion.identity));
                 }
             }
         }
 
+        // If there are any waypoints go there, if not, go to safeZone
+        if (waypoints.Count >= 1)
+            target = waypoints[0];
+        else target = safeZone.position;
+
         agent.SetDestination(target);
 
         if (Vector3.Distance(transform.position, target) >= 5) agent.isStopped = false;
+
+        // If the human reached a waypoint, delete it from the list
+        if (Vector3.Distance(transform.position, target) <= 5 && target != safeZone.position)
+        {
+            waypoints.RemoveAt(0);
+            GameObject oldWaypoint = waypointsVisualFeedback[0];
+            waypointsVisualFeedback.RemoveAt(0);
+            Destroy(oldWaypoint);
+        }
     }
 
     private void OnDestroy()
@@ -80,5 +97,8 @@ public class HumanBehaviour : MonoBehaviour
 
         if (allHumans.Count == 0)
             GameManager.GetInstance().ZombiesWin();
+
+        for (int i = 0; i < waypointsVisualFeedback.Count; i++)
+            Destroy(waypointsVisualFeedback[i]);
     }
 }

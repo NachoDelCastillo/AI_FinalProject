@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Item : MonoBehaviour
-{   
+{
     [SerializeField] protected float pickUpRadius;
     [HideInInspector] public int column;
 
@@ -29,6 +29,7 @@ public class Item : MonoBehaviour
 
     protected virtual void PickUp(Transform _human)
     {
-        spawnManager.PickUpItem(column);
+        if (spawnManager != null)
+            spawnManager.PickUpItem(column);
     }
 }

@@ -142,8 +142,10 @@ MonoBehaviour:
   noSel: {fileID: 2100000, guid: 7e9a43df45c994fadba72bcc2283ee24, type: 2}
   sel: {fileID: 2100000, guid: db1dadbefe02c8d499739ea8ddd688c7, type: 2}
   target: {x: 0, y: 0, z: 0}
+  waypoints: []
   haveGun: 0
   ammoText: {fileID: 6838384900855849462}
+  waypointVisualFeedback: {fileID: 6093533700027884670, guid: 90a5d84319eabcb458aec888572d7bf8, type: 3}
 --- !u!195 &1516211555
 NavMeshAgent:
   m_ObjectHideFlags: 0

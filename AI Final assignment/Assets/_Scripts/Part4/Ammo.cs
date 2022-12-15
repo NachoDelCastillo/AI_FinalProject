@@ -18,8 +18,7 @@ public class Ammo : Item
         // If it dosent have a gun, dont pick it up
         if (!_human.GetComponent<HumanBehaviour>().haveGun) return;
 
-        // If the gun ammo is full, dont pick up this ammo
-        if (!_human.GetComponentInChildren<Gun>().GetAmmo(numberOfBullets)) return;
+        _human.GetComponentInChildren<Gun>().GetAmmo(numberOfBullets);
 
         base.PickUp(_human);
         Destroy(gameObject);
